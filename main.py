@@ -11,6 +11,7 @@ class Plox:
             Plox.run_file(sys.argv[1])
             print("Run file")
         else:
+            Plox.run_prompt()
             print("REPL")
 
     @staticmethod
@@ -20,6 +21,17 @@ class Plox:
 
 
         Plox.run(data)
+
+    @staticmethod
+    def run_prompt():
+        while True:
+            line = input("> ")
+
+            if line.lower() == "exit":
+                sys.exit(64)
+
+
+            Plox.run(line)
 
     @staticmethod
     def run(source):
