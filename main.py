@@ -2,6 +2,8 @@ from pathlib import Path
 import sys
 
 class Plox:
+    had_error = False 
+
     @staticmethod
     def main():
         if len(sys.argv) > 2:
@@ -21,6 +23,8 @@ class Plox:
 
 
         Plox.run(data)
+        if Plox.had_error:
+            sys.exit(65)
 
     @staticmethod
     def run_prompt():
@@ -29,9 +33,12 @@ class Plox:
 
             if line.lower() == "exit":
                 sys.exit(64)
-
+            
+            if line.lower() == "error":
+                Plox.error(1, "Error Test")
 
             Plox.run(line)
+            Plox.had_error = False
 
     @staticmethod
     def run(source):
@@ -39,6 +46,15 @@ class Plox:
 
         for token in tokens:
             print(token)
+
+    @staticmethod
+    def error(line,message):
+        Plox.report(line, "", message)
+
+    @staticmethod
+    def report(line, where, message):
+        print(f"[{line}] Error {where}: {message}")
+        Plox.had_error = True
 
 if __name__ == "__main__":
    Plox.main()
