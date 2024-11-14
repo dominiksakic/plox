@@ -42,7 +42,7 @@ class Plox:
 
     @staticmethod
     def run(source):
-        tokens = source # Prints out numbers.
+        tokens = source
 
         for token in tokens:
             print(token)
