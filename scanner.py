@@ -1,5 +1,6 @@
 from token import Token 
 from token_type import TokenTypes
+from main import Plox 
 
 class Scanner:
     tokens = []
@@ -42,6 +43,8 @@ class Scanner:
                 self.add_token(TokenTypes.SEMICOLON)
             case '*':
                 self.add_token(TokenTypes.STAR)
+            case _:
+                Plox.error(self.line, "Unexpected character.")
 
     def is_at_end(self):
         return self.current >= len(self.source)
