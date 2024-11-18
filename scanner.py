@@ -43,8 +43,24 @@ class Scanner:
                 self.add_token(TokenTypes.SEMICOLON)
             case '*':
                 self.add_token(TokenTypes.STAR)
+            case '!':
+                self.add_token(self.match('=') if TokenTypes.BANG_EQUAL else TokenTypes.BANG)
+            case '=':
+                self.add_token(self.match('=') if TokenTypes.EQUAL_EQUAL else TokenTypes.EQUAL)
+            case '<':
+                self.add_token(self.match('=') if TokenTypes.LESS_EQUAL else TokenTypes.LESS)
+            case '>':
+                self.add_token(self.match('=') if TokenTypes.GREATER_EQAUL else TokenTypes.GREATER)
             case _:
                 Plox.error(self.line, "Unexpected character.")
+
+    def match(self, expected):
+        if(self.is_at_end()): return False
+        if(self.source[self.current]!= expected) : return False
+
+        self.current += 1
+        return True
+    
 
     def is_at_end(self):
         return self.current >= len(self.source)
