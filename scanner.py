@@ -51,6 +51,11 @@ class Scanner:
                 self.add_token(self.match('=') if TokenTypes.LESS_EQUAL else TokenTypes.LESS)
             case '>':
                 self.add_token(self.match('=') if TokenTypes.GREATER_EQAUL else TokenTypes.GREATER)
+            case '/':
+                if(self.match('/')):
+                    while(self.peek() != '\n' and not self.is_at_end()): self.advance()
+                else: 
+                    self.add_token(TokenTypes.SLASH)
             case _:
                 Plox.error(self.line, "Unexpected character.")
 
@@ -60,7 +65,10 @@ class Scanner:
 
         self.current += 1
         return True
-    
+
+    def peek(self):
+        if(self.is_at_end()): return '\0'
+        return self.source[self.current]
 
     def is_at_end(self):
         return self.current >= len(self.source)
