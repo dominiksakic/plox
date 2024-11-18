@@ -56,6 +56,14 @@ class Scanner:
                     while(self.peek() != '\n' and not self.is_at_end()): self.advance()
                 else: 
                     self.add_token(TokenTypes.SLASH)
+            case ' ':
+                pass
+            case '\r':
+                pass
+            case '\t':
+                pass
+            case '\n':
+                self.line += 1
             case _:
                 Plox.error(self.line, "Unexpected character.")
 
