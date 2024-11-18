@@ -22,8 +22,26 @@ class Scanner:
         c = self.advance()
         print(c)
         match c:
-            case '(':
-                pass 
+            case '(': 
+                self.add_token(TokenTypes.LEFT_PAREN) 
+            case ')':
+                self.add_token(TokenTypes.RIGHT_PAREN)
+            case '{':
+                self.add_token(TokenTypes.LEFT_BRACE)
+            case '}':
+                self.add_token(TokenTypes.RIGHT_BRACE)
+            case ',':
+                self.add_token(TokenTypes.COMMA)
+            case '.':
+                self.add_token(TokenTypes.DOT)
+            case '-':
+                self.add_token(TokenTypes.MINUS)
+            case '+':
+                self.add_token(TokenTypes.PLUS)
+            case ';':
+                self.add_token(TokenTypes.SEMICOLON)
+            case '*':
+                self.add_token(TokenTypes.STAR)
 
     def is_at_end(self):
         return self.current >= len(self.source)
@@ -35,6 +53,10 @@ class Scanner:
 
         return self.source[temp_current]
 
-test = Scanner("Hello My name is Dominik")
+    def add_token(self, type, literal=None):
+        text = self.source[self.start:self.current]
+        self.tokens.append(Token(type, text, literal, self.line))
+
+test = Scanner("Hello My name is Dominik (")
 token = test.scan_tokens();
-print(token[0])
+print(test.tokens[0].to_string())
