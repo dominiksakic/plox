@@ -64,8 +64,28 @@ class Scanner:
                 pass
             case '\n':
                 self.line += 1
+            case '"':
+                self.string()
             case _:
                 Plox.error(self.line, "Unexpected character.")
+
+    def string(self):
+        while(self.peek() != '"' and not self.is_at_end()):
+            
+            if(self.peek() == '\n'): 
+                self.line += 1
+
+            self.advance()
+        
+        if (self.is_at_end()):
+            Lox.error(self.line, "Unterminated String")
+            return Null
+
+        self.advance()
+
+        value = self.source[self.start + 1:self.current - 1]
+        self.add_token(TokenTypes.STRING, value)
+
 
     def match(self, expected):
         if(self.is_at_end()): return False
@@ -92,6 +112,6 @@ class Scanner:
         text = self.source[self.start:self.current]
         self.tokens.append(Token(type, text, literal, self.line))
 
-test = Scanner("Hello My name is Dominik (")
+test = Scanner('"\Hello My name is Dominik ("')
 token = test.scan_tokens();
 print(test.tokens[0].to_string())
