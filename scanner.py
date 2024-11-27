@@ -67,7 +67,22 @@ class Scanner:
             case '"':
                 self.string()
             case _:
-                Plox.error(self.line, "Unexpected character.")
+                if(self.is_digit(c)):
+                    self.number()
+                else:
+                    Plox.error(self.line, "Unexpected character.")
+
+    def number(self):
+        while(self.is_digit(self.peek())):
+            self.advance()
+
+        if(self.peek() == '.' and self.is_digit(self.peek_next())):
+            self.advance()
+            while(self.is_digit(self.peek())):
+                self.advance()
+
+        value = self.source[self.start:self.current]
+        self.add_token(TokenTypes.NUMBER, value)
 
     def string(self):
         while(self.peek() != '"' and not self.is_at_end()):
@@ -98,6 +113,14 @@ class Scanner:
         if(self.is_at_end()): return '\0'
         return self.source[self.current]
 
+    def peek_next(self):
+        if(self.current + 1 >= len(self.source)): return '\0'
+        return self.source[self.current + 1]
+
+    def is_digit(self, char):
+        is_digit = char >= '0' and char <='9' 
+        return is_digit
+
     def is_at_end(self):
         return self.current >= len(self.source)
 
@@ -112,6 +135,6 @@ class Scanner:
         text = self.source[self.start:self.current]
         self.tokens.append(Token(type, text, literal, self.line))
 
-test = Scanner('"\Hello My name is Dominik ("')
+test = Scanner('2.1')
 token = test.scan_tokens();
 print(test.tokens[0].to_string())
