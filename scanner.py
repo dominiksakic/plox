@@ -2,7 +2,6 @@ from token import Token
 from token_type import TokenTypes
 
 class Scanner:
-    tokens = []
     start = 0
     current = 0
     line = 1
@@ -26,9 +25,10 @@ class Scanner:
         "while": TokenTypes.WHILE
     }
 
-    def __init__(self, source, error_handler):
+    def __init__(self, source,error_handler):
         self.source = source
         self.error_handler = error_handler
+        self.tokens = []
 
     def scan_tokens(self):
         while(not self.is_at_end()):
