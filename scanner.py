@@ -1,6 +1,5 @@
 from token import Token 
 from token_type import TokenTypes
-from main import Plox 
 
 class Scanner:
     tokens = []
@@ -27,8 +26,9 @@ class Scanner:
         "while": TokenTypes.WHILE
     }
 
-    def __init__(self, source):
+    def __init__(self, source, error_handler):
         self.source = source
+        self.error_handler = error_handler
 
     def scan_tokens(self):
         while(not self.is_at_end()):
@@ -40,7 +40,6 @@ class Scanner:
 
     def scan_token(self):
         c = self.advance()
-        print(c)
         match c:
             case '(': 
                 self.add_token(TokenTypes.LEFT_PAREN) 
@@ -91,17 +90,17 @@ class Scanner:
                 elif (self.is_alpha(c)):
                     self.identifier()
                 else:
-                    Plox.error(self.line, "Unexpected character.")
+                    self.error_handler(self.line, "Unexpected character.")
 
     def identifier(self):
         while(self.is_alpha_numeric(self.peek())): 
             self.advance()
             
         text = self.source[self.start: self.current]
-        type = self.keywords[text]
+        type = self.keywords.get(text)
         
         if(type == None): 
-            type = TokenTypes.identifier
+            type = TokenTypes.IDENTIFIER
 
         self.add_token(type)
 
@@ -174,6 +173,3 @@ class Scanner:
         text = self.source[self.start:self.current]
         self.tokens.append(Token(type, text, literal, self.line))
 
-test = Scanner('and')
-token = test.scan_tokens();
-print(test.tokens[0].to_string())

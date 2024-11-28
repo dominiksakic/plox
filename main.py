@@ -1,5 +1,6 @@
 from pathlib import Path
 import sys
+from scanner import Scanner
 
 class Plox:
     had_error = False 
@@ -42,7 +43,8 @@ class Plox:
 
     @staticmethod
     def run(source):
-        tokens = source
+        scanner = Scanner(source, Plox.error)
+        tokens = scanner.scan_tokens() 
 
         for token in tokens:
             print(token)
