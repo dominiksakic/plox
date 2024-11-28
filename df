@@ -1,0 +1,95 @@
+[33mcommit e810a7ffbf735782e80ae0687584dd267c87d089[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: dominiksakic <dominik.sakic@yahoo.com>
+Date:   Wed Nov 27 16:06:56 2024 +0900
+
+    feat: tokenize numeric values
+
+[33mcommit f803188ad1e266fc08442561b84465e87b273b5d[m
+Author: dominiksakic <dominik.sakic@yahoo.com>
+Date:   Tue Nov 26 17:31:37 2024 +0900
+
+    feat: tokinze strings with double-quotas
+
+[33mcommit 74d6e351c8840be5e43272501a0d9677dadc3ba0[m
+Author: dominiksakic <dominik.sakic@yahoo.com>
+Date:   Mon Nov 18 17:58:33 2024 +0900
+
+    feat: handle spaces, tabs and newlines
+
+[33mcommit 225d0b08d37f1e17a1ea5a8d3d8f781da3b79cb3[m
+Author: dominiksakic <dominik.sakic@yahoo.com>
+Date:   Mon Nov 18 17:50:15 2024 +0900
+
+    feat: handle / and comments //
+
+[33mcommit e716f919d00b0553c5300cb8af5fb6f13c565160[m
+Author: dominiksakic <dominik.sakic@yahoo.com>
+Date:   Mon Nov 18 17:44:16 2024 +0900
+
+    feat: handle two char nonliteral tokens | untested
+
+[33mcommit c8ba74ace3e5d5d1109e481b1b198124f8ec7223[m
+Author: dominiksakic <dominik.sakic@yahoo.com>
+Date:   Mon Nov 18 17:30:03 2024 +0900
+
+    feat: handle Unexpected Chars
+
+[33mcommit c41ff1faec26964c9cbd3d48281cdae2984d9dc8[m
+Author: dominiksakic <dominik.sakic@yahoo.com>
+Date:   Mon Nov 18 17:18:42 2024 +0900
+
+    feat: scan nonliteral single char tokens
+
+[33mcommit c020a2983e61114db26609b6b2ae6cb7efc25781[m
+Author: dominiksakic <dominik.sakic@yahoo.com>
+Date:   Thu Nov 14 17:18:22 2024 +0900
+
+    chore: fix bug in advancing while parsing, because of out of scope
+
+[33mcommit 3389b4f960c364b3bf6fbddbbbbd8d3773e7599e[m
+Author: dominiksakic <dominik.sakic@yahoo.com>
+Date:   Thu Nov 14 16:59:55 2024 +0900
+
+    feat: simple token scanner, manually tested
+
+[33mcommit da79907c963e3ab761488bd18f5cff91455adbe0[m
+Author: dominiksakic <dominik.sakic@yahoo.com>
+Date:   Thu Nov 14 16:40:54 2024 +0900
+
+    feat: create Token abstraction
+
+[33mcommit 102ae8ae9e61dffc47381941e6f11ae8770cb27a[m
+Author: dominiksakic <dominik.sakic@yahoo.com>
+Date:   Mon Nov 11 19:30:01 2024 +0900
+
+    feat: handle and report errors
+
+[33mcommit 45367757307ddbd1cfd7397546d2456d786d00ef[m
+Author: dominiksakic <dominik.sakic@yahoo.com>
+Date:   Mon Nov 11 19:10:20 2024 +0900
+
+    feat: add TokenTypes Enums
+
+[33mcommit 32ef54518a7f12c944c410689e483ebb05d7d484[m
+Author: dominiksakic <dominik.sakic@yahoo.com>
+Date:   Sun Nov 10 20:59:02 2024 +0900
+
+    feat: add REPL that echos user input
+
+[33mcommit 56e3eb5f5d59da96b906a082530ccc9c43304380[m
+Author: dominiksakic <dominik.sakic@yahoo.com>
+Date:   Sun Nov 10 20:50:50 2024 +0900
+
+    feat: read a file and output the bytes
+
+[33mcommit f55296aac459bf28966d9dc1b73b2c6001bbf0e6[m
+Author: dominiksakic <dominik.sakic@yahoo.com>
+Date:   Sun Nov 10 20:37:28 2024 +0900
+
+    feat: create entry point to run scripts and REPL
+
+[33mcommit 4b1f7c5b35ee2aaa42924d5b47ae02d01eec3e1a[m
+Author: dominiksakic <dominik.sakic@yahoo.com>
+Date:   Sun Nov 10 20:18:25 2024 +0900
+
+    first commit

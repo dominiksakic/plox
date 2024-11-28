@@ -8,6 +8,25 @@ class Scanner:
     current = 0
     line = 1
 
+    keywords = {
+        "and": TokenTypes.AND,
+        "class": TokenTypes.CLASS,
+        "else": TokenTypes.ELSE,
+        "false": TokenTypes.FALSE,
+        "for": TokenTypes.FOR,
+        "fun": TokenTypes.FUN,
+        "if": TokenTypes.IF,
+        "nil": TokenTypes.NIL,
+        "or": TokenTypes.OR,
+        "print": TokenTypes.PRINT,
+        "return": TokenTypes.RETURN,
+        "super": TokenTypes.SUPER,
+        "this": TokenTypes.THIS,
+        "true": TokenTypes.TRUE,
+        "var": TokenTypes.VAR,
+        "while": TokenTypes.WHILE
+    }
+
     def __init__(self, source):
         self.source = source
 
@@ -69,8 +88,22 @@ class Scanner:
             case _:
                 if(self.is_digit(c)):
                     self.number()
+                elif (self.is_alpha(c)):
+                    self.identifier()
                 else:
                     Plox.error(self.line, "Unexpected character.")
+
+    def identifier(self):
+        while(self.is_alpha_numeric(self.peek())): 
+            self.advance()
+            
+        text = self.source[self.start: self.current]
+        type = self.keywords[text]
+        
+        if(type == None): 
+            type = TokenTypes.identifier
+
+        self.add_token(type)
 
     def number(self):
         while(self.is_digit(self.peek())):
@@ -117,6 +150,12 @@ class Scanner:
         if(self.current + 1 >= len(self.source)): return '\0'
         return self.source[self.current + 1]
 
+    def is_alpha(self, c):
+        return (c >= 'a' and c <= 'z') or (c >= 'A' and c <= 'Z') or c == '_'
+
+    def is_alpha_numeric(self, c):
+        return self.is_alpha(c) or self.is_digit(c)
+
     def is_digit(self, char):
         is_digit = char >= '0' and char <='9' 
         return is_digit
@@ -135,6 +174,6 @@ class Scanner:
         text = self.source[self.start:self.current]
         self.tokens.append(Token(type, text, literal, self.line))
 
-test = Scanner('2.1')
+test = Scanner('and')
 token = test.scan_tokens();
 print(test.tokens[0].to_string())
