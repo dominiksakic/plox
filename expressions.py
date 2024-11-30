@@ -26,7 +26,7 @@ class Expr(ABC):
     def accept(self, visitor: Visitor[T]) -> T:
         pass
 
-def BinaryExpr(Expr):
+class BinaryExpr(Expr):
     def __init__(self, left: Expr, operator: Token, right: Expr):
         self.left = left
         self.operator = operator
@@ -35,21 +35,21 @@ def BinaryExpr(Expr):
     def accept(self, visitor: Visitor[T]) -> T:
         return visitor.visit_binary(self)
 
-def GroupingExpr(Expr):
+class GroupingExpr(Expr):
     def __init__(self, expr: Expr):
         self.expr = expr
 
     def accept(self, visitor: Visitor[T]) -> T:
         return visitor.visit_grouping(self)
 
-def LiteralExpr(Expr):
+class LiteralExpr(Expr):
     def __init__(self, value: Any):
         self.value= value 
 
     def accept(self, visitor: Visitor[T]) -> T:
         return visitor.visit_literal(self)
 
-def UnaryExpr(Expr):
+class UnaryExpr(Expr):
     def __init__(self, operator: Token, right: Expr):
         self.operator = operator
         self.right = right
