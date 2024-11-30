@@ -30,7 +30,7 @@ class BinaryExpr(Expr):
     def __init__(self, left: Expr, operator: Token, right: Expr):
         self.left = left
         self.operator = operator
-        self.rigth = right
+        self.right = right
 
     def accept(self, visitor: Visitor[T]) -> T:
         return visitor.visit_binary(self)
