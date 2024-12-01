@@ -1,6 +1,8 @@
-from pathlib import Path
 import sys
+from pathlib import Path
 from scanner import Scanner
+from ast_printer import AstPrinter 
+from parser import Parser
 
 class Plox:
     had_error = False 
@@ -45,9 +47,13 @@ class Plox:
     def run(source):
         scanner = Scanner(source, Plox.error)
         tokens = scanner.scan_tokens() 
+        parser = Parser(tokens, Plox.error)
+        expression = parser.parse()
 
-        for token in tokens:
-            print(token)
+        if Plox.had_error: return None
+        
+        printer = AstPrinter()
+        print(printer.print(expression))
 
     @staticmethod
     def error(line,message):

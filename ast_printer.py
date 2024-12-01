@@ -36,6 +36,3 @@ if __name__ == "__main__":
     )
 )
 
-    printer = AstPrinter()
-    print(printer.print(expr))  # Expected Output: "(+ 1 2)"
-    print(printer.print(expr2))
