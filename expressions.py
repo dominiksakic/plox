@@ -53,6 +53,5 @@ class UnaryExpr(Expr):
     def __init__(self, operator: Token, right: Expr):
         self.operator = operator
         self.right = right
-
-    def accept(self, visitor: Visitor[T]) -> T:
+def accept(self, visitor: Visitor[T]) -> T:
         return visitor.visit_unary(self)
