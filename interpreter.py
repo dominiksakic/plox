@@ -1,6 +1,7 @@
 from typing import Any
 from expressions import Visitor, LiteralExpr, GroupingExpr, Expr, UnaryExpr
 from token_type import TokenTypes 
+from runtime_error import RuntimeError
 
 class Interpreter(Visitor):
     def visit_literal(self, expr: LiteralExpr) -> Any:
@@ -15,11 +16,16 @@ class Interpreter(Visitor):
         match expr.operator.type:
             case TokenTypes.MINUS:
                 return -float(right)
-            case TokenTypes.BANG:
+            case TokenTypes.BANG: 
                 return not self.is_truthy(right)
 
         return None
     
+    def check_number_operand(operator: Token, operand: Any) -> None:
+        if isinstance(operand, (float, int)): 
+            return
+        raise RuntimeError(operator, "Operand must be a number")
+
     def is_truthy(self, object: Any) -> bool:
         if object is None:
             return False
@@ -46,6 +52,7 @@ class Interpreter(Visitor):
 
         match expr.operator.type:
             case TokenTypes.MINUS:
+                self.check_number_operand(expr.operator, right)
                 return float(left) - float(right)
             case TokenTypes.SLASH:
                 return float(left) / float(right)
