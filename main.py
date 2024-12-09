@@ -1,14 +1,18 @@
 import sys
 from pathlib import Path
 from scanner import Scanner
-from ast_printer import AstPrinter 
-from parser import Parser
+from parser import Parser 
+from interpreter import Interpreter
 
 class Plox:
+    interpreter = None 
     had_error = False 
+    had_run_time_error = False
 
     @staticmethod
     def main():
+        Plox.interpreter = Interpreter(Plox.runtime_error)
+
         if len(sys.argv) > 2:
             print("Usage: plox [script]")
             sys.exit(64)
@@ -29,6 +33,9 @@ class Plox:
         if Plox.had_error:
             sys.exit(65)
 
+        if Plox.had_run_time_error:
+            sys.exit(70)
+            
     @staticmethod
     def run_prompt():
         while True:
@@ -52,12 +59,16 @@ class Plox:
 
         if Plox.had_error: return None
         
-        printer = AstPrinter()
-        print(printer.print(expression))
+        Plox.interpreter.interpret(expression)
 
     @staticmethod
     def error(line,message):
         Plox.report(line, "", message)
+
+    @staticmethod
+    def runtime_error(error):
+        print(f"{error.message}\n[line {error.token.line}]")
+        Plox.had_run_time_error = True
 
     @staticmethod
     def report(line, where, message):

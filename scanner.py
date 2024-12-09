@@ -25,7 +25,7 @@ class Scanner:
         "while": TokenTypes.WHILE
     }
 
-    def __init__(self, source,error_handler):
+    def __init__(self, source, error_handler):
         self.source = source
         self.error_handler = error_handler
         self.tokens = []
@@ -48,7 +48,8 @@ class Scanner:
             case '{':
                 self.add_token(TokenTypes.LEFT_BRACE)
             case '}':
-                self.add_token(TokenTypes.RIGHT_BRACE) case ',':
+                self.add_token(TokenTypes.RIGHT_BRACE)
+            case ',':
                 self.add_token(TokenTypes.COMMA)
             case '.':
                 self.add_token(TokenTypes.DOT)
