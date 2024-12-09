@@ -113,7 +113,7 @@ class Scanner:
             while(self.is_digit(self.peek())):
                 self.advance()
 
-        value = self.source[self.start:self.current]
+        value = float(self.source[self.start:self.current]) if '.' in self.source[self.start:self.current] else int(self.source[self.start:self.current])
         self.add_token(TokenTypes.NUMBER, value)
 
     def string(self):
