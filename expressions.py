@@ -8,8 +8,7 @@ class Visitor(Generic[T], ABC):
     @abstractmethod
     def visit_binary(self,expr:'BinaryExpr') -> T:
         pass
-
-    @abstractmethod
+@abstractmethod
     def visit_grouping(self,expr:'GroupingExpr') -> T:
         pass
 

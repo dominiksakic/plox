@@ -48,8 +48,7 @@ class Scanner:
             case '{':
                 self.add_token(TokenTypes.LEFT_BRACE)
             case '}':
-                self.add_token(TokenTypes.RIGHT_BRACE)
-            case ',':
+                self.add_token(TokenTypes.RIGHT_BRACE) case ',':
                 self.add_token(TokenTypes.COMMA)
             case '.':
                 self.add_token(TokenTypes.DOT)
