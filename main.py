@@ -55,11 +55,12 @@ class Plox:
         scanner = Scanner(source, Plox.error)
         tokens = scanner.scan_tokens() 
         parser = Parser(tokens, Plox.error)
-        expression = parser.parse()
+        statements = parser.parse()
+
 
         if Plox.had_error: return None
         
-        Plox.interpreter.interpret(expression)
+        Plox.interpreter.interpret(statements)
 
     @staticmethod
     def error(line,message):

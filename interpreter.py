@@ -1,17 +1,18 @@
 from expressions import Visitor, LiteralExpr, GroupingExpr, Expr, UnaryExpr
 from token_type import TokenTypes 
 from token import Token
-from typing import Any
+from typing import Any, List
 from runtime_error import RuntimeError
+from stmt import StmtVisitor, ExprStmt, PrintStmt, Stmt
 
-class Interpreter(Visitor):
+class Interpreter(Visitor, StmtVisitor):
     def __init__(self, runtime_error):
         self.runtime_error = runtime_error
 
-    def interpret(self, expr: Expr) -> None:
+    def interpret(self, statements: List[Stmt])-> None:
         try:
-            value: Any = self.evaluate(expr)
-            print(self.stringify(value))
+            for statement in statements:
+                self.execute(statement)
         except RuntimeError as error:
             self.runtime_error(error)
 
@@ -67,6 +68,18 @@ class Interpreter(Visitor):
                 
     def evaluate(self, expr: Expr) -> Any:
         return expr.accept(self)
+
+    def execute(self, stmt: Stmt):
+        stmt.accept(self)
+
+    def visit_expr_stmt(self, stmt: ExprStmt):
+        self.evaluate(stmt.expression)
+        return None
+    
+    def visit_print_stmt(self, stmt: PrintStmt):
+        value = self.evaluate(stmt.expression)
+        print(self.stringify(value))
+        return None
 
     def visit_binary(self, expr: Expr) -> Any:
         left = self.evaluate(expr.left)

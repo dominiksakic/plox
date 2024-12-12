@@ -1,6 +1,6 @@
 from token_type import TokenTypes
 from expressions import BinaryExpr, UnaryExpr, LiteralExpr, GroupingExpr
-from stmt import Stmt
+from stmt import PrintStmt, ExprStmt
 
 class Parser():
     def __init__(self, tokens, error_handler):
@@ -11,7 +11,7 @@ class Parser():
     def parse(self):
         statements = []
         while not self.is_at_end():
-            statements.append(statement())
+            statements.append(self.statement())
 
         return statements
 
@@ -19,18 +19,18 @@ class Parser():
         return self.equality()
 
     def statement(self):
-        if self.match(TokenTypes.PRINT)): return self.print_statement()
+        if self.match(TokenTypes.PRINT): return self.print_statement()
         return self.expression_statement()
 
     def print_statement(self):
         value = self.expression()
         self.consume(TokenTypes.SEMICOLON, "Expect ';' after value")
-        return Stmt.print(value)
+        return PrintStmt(value)
 
     def expression_statement(self):
         value = self.expression()
         self.consume(TokenTypes.SEMICOLON, "Expect ';' after value")
-        return Stmt.expression(value)
+        return ExprStmt(value)
 
     def equality(self):
         expr = self.comparison() 
