@@ -12,6 +12,10 @@ class StmtVisitor(Generic[T], ABC):
     def visit_print_stmt(self,expr) -> T:
         pass 
 
+    @abstractmethod
+    def visit_var_stmt(self,expr) -> T:
+        pass 
+
 class Stmt(ABC):
     @abstractmethod
     def accept(self, visitor: StmtVisitor[T]) -> T:
@@ -31,3 +35,12 @@ class PrintStmt(Stmt):
 
     def accept(self, visitor: StmtVisitor[T]) -> T:
         return visitor.visit_print_stmt(self)
+
+class VarStmt(Stmt):
+    def __init__(self, name, initializer):
+        self.name = name
+        self.expression = expression
+
+    def accept(self, visitor: StmtVisitor[T]) -> T:
+        return visitor.visit_var_stmt(self)
+
