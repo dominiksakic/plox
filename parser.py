@@ -1,6 +1,6 @@
 from token_type import TokenTypes
-from expressions import BinaryExpr, UnaryExpr, LiteralExpr, GroupingExpr
-from stmt import PrintStmt, ExprStmt
+from expressions import BinaryExpr, UnaryExpr, LiteralExpr, GroupingExpr, VariableExpr
+from stmt import PrintStmt, ExprStmt, VarStmt
 
 class Parser():
     def __init__(self, tokens, error_handler):
@@ -11,12 +11,20 @@ class Parser():
     def parse(self):
         statements = []
         while not self.is_at_end():
-            statements.append(self.statement())
+            statements.append(self.declaration())
 
         return statements
 
     def expression(self):
         return self.equality()
+
+    def declaration(self):
+        try:
+            if self.match(TokenTypes.VAR):
+                return self.var_declaration()
+        except ParseError as e:
+            self.synchronize() 
+            return None
 
     def statement(self):
         if self.match(TokenTypes.PRINT): return self.print_statement()
@@ -26,6 +34,16 @@ class Parser():
         value = self.expression()
         self.consume(TokenTypes.SEMICOLON, "Expect ';' after value")
         return PrintStmt(value)
+
+    def var_declaration(self):
+        name = self.consume(TokenTypes.IDENTIFIER, "Except a variable name.")
+
+        initializer = None
+        if self.match(TokenTypes.EQUAL):
+            initializer = self.expression()
+
+        self.consume(TokenTypes.SEMICOLON, "Expect ';' after variable declaration")
+        return VarStmt(name, initializer)
 
     def expression_statement(self):
         value = self.expression()
@@ -73,7 +91,7 @@ class Parser():
         return expr
 
     def unary(self):
-        if(self.match(TokenTypes.BANG, TokenTypes.MINUS)):
+        if self.match(TokenTypes.BANG, TokenTypes.MINUS):
             operator = self.previous()
             right = self.unary()
             return  UnaryExpr(operator, right)
@@ -81,17 +99,20 @@ class Parser():
         return self.primary()
     
     def primary(self):
-        if(self.match(TokenTypes.FALSE)): 
+        if self.match(TokenTypes.FALSE): 
             return LiteralExpr(False)
-        if(self.match(TokenTypes.TRUE)):
+        if self.match(TokenTypes.TRUE):
             return LiteralExpr(True)
-        if(self.match(TokenTypes.NIL)):
+        if self.match(TokenTypes.NIL):
             return LiteralExpr(None)
 
-        if(self.match(TokenTypes.NUMBER, TokenTypes.STRING)):
+        if self.match(TokenTypes.NUMBER, TokenTypes.STRING):
             return LiteralExpr(self.previous().literal)
 
-        if(self.match(TokenTypes.LEFT_PAREN)):
+        if self.match(TokenTypes.IDENTIFIER):
+            return VariableExpr(self.previous())
+
+        if self.match(TokenTypes.LEFT_PAREN):
             expr = self.expression()
             self.consume(TokenTypes.RIGHT_PAREN, "Expect ')' after expression.")
             return GroupingExpr(expr)
@@ -113,13 +134,13 @@ class Parser():
         raise self.error(self.peek(), message)
 
     def check(self, type):
-        if(self.is_at_end()):
+        if self.is_at_end():
             return False
 
         return self.peek().type == type
 
     def advance(self):
-        if(not self.is_at_end()):
+        if not self.is_at_end():
             self.current += 1
 
         return self.previous()
