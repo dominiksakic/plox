@@ -4,10 +4,12 @@ from token import Token
 from typing import Any, List
 from runtime_error import RuntimeError
 from stmt import StmtVisitor, ExprStmt, PrintStmt, Stmt
+from enviroment import Enviroment
 
 class Interpreter(Visitor, StmtVisitor):
     def __init__(self, runtime_error):
         self.runtime_error = runtime_error
+        self.enviroment = Enviroment()
 
     def interpret(self, statements: List[Stmt])-> None:
         try:
