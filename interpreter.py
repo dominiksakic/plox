@@ -36,6 +36,9 @@ class Interpreter(Visitor, StmtVisitor):
 
         raise RuntimeError(expr.operator, "Unexpected unary operator.")
 
+    def visit_variable(self, expr):
+        return self.enviroment.get(expr.name)
+
     def check_number_operand(self, operator: Token, operand: Any) -> None:
         if isinstance(operand, (float, int)): 
             return
@@ -82,6 +85,14 @@ class Interpreter(Visitor, StmtVisitor):
         value = self.evaluate(stmt.expression)
         print(self.stringify(value))
         return None
+
+    def visit_var_stmt(self, stmt):
+        value = None
+        if stmt.initializer != None:
+            value = self.evaluate(stmt.initializer)
+
+        self.enviroment.define(stmt.name.lexeme, value)
+        return None 
 
     def visit_binary(self, expr: Expr) -> Any:
         left = self.evaluate(expr.left)
